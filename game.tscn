@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://6qmjpgb772d3"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mwb40"]
+size = Vector2(90, 90)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80nbo"]
+albedo_color = Color(0, 0.321569, 0.172549, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e2o6t"]
+size = Vector3(90, 0.05, 90)
+
+[sub_resource type="Environment" id="Environment_feb5d"]
+fog_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mwb40"]
+size = Vector3(16.022186, 1, 13.247559)
+
+[node name="Game" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
+mesh = SubResource("PlaneMesh_mwb40")
+surface_material_override/0 = SubResource("StandardMaterial3D_80nbo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+shape = SubResource("BoxShape3D_e2o6t")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_feb5d")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -0.5, 0.866025, 0, -0.866025, -0.5, 0, 4, 0)
+shadow_enabled = true
+shadow_blur = 0.5
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.46887207, 0, -0.36392212)
+size = Vector3(16.022217, 1, 13.208557)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/CSGBox3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/CSGBox3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46887207, 0, 0.36392212)
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/CSGBox3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00038146973, 0, -0.0074157715)
+shape = SubResource("BoxShape3D_mwb40")

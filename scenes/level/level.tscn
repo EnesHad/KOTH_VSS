@@ -1,0 +1,338 @@
+[gd_scene load_steps=24 format=3 uid="uid://dugaivbj1o66n"]
+
+[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://scripts/level.gd" id="1_e1sh7"]
+[ext_resource type="PackedScene" uid="uid://cffjduipbb3s5" path="res://scenes/level/player.tscn" id="1_uvcbi"]
+[ext_resource type="Texture2D" uid="uid://bwnf4a3j8mgqo" path="res://assets/brick.jpg" id="3_vpf64"]
+[ext_resource type="Texture2D" uid="uid://b72hr7q61t5ot" path="res://assets/ograja.jpg" id="4_wcngd"]
+[ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://scenes/ui/inventory_ui.tscn" id="4_x8g2h"]
+[ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://scenes/ui/multiplayer_chat_ui.tscn" id="5_x9g3h"]
+[ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://scenes/ui/main_menu_ui.tscn" id="6_x9g3h"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r5xs5"]
+size = Vector2(90, 90)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wcngd"]
+load_path = "res://.godot/imported/grass.jpg-0ba16f44b526d55533634fdbc2c9d424.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o02aj"]
+albedo_color = Color(0, 0.321569, 0.172549, 1)
+albedo_texture = SubResource("CompressedTexture2D_wcngd")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x3h1o"]
+size = Vector3(90, 0.05, 90)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xv074"]
+
+[sub_resource type="Sky" id="Sky_xv074"]
+sky_material = SubResource("ProceduralSkyMaterial_xv074")
+
+[sub_resource type="Environment" id="Environment_qb4jd"]
+background_mode = 2
+sky = SubResource("Sky_xv074")
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vpf64"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hnne4"]
+size = Vector3(16.022186, 1, 13.239502)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xv074"]
+albedo_texture = ExtResource("3_vpf64")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sytrn"]
+albedo_texture = ExtResource("3_vpf64")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tf2q7"]
+albedo_texture = ExtResource("3_vpf64")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wcngd"]
+albedo_texture = ExtResource("3_vpf64")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pe1ox"]
+albedo_texture = ExtResource("3_vpf64")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b7m21"]
+albedo_texture = ExtResource("4_wcngd")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m0bv2"]
+albedo_texture = ExtResource("3_vpf64")
+
+[node name="Level" type="Node3D"]
+script = ExtResource("1_e1sh7")
+player_scene = ExtResource("1_uvcbi")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Environment"]
+collision_layer = 2
+metadata/_edit_lock_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12538528, 0, 0.138031)
+mesh = SubResource("PlaneMesh_r5xs5")
+surface_material_override/0 = SubResource("StandardMaterial3D_o02aj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
+shape = SubResource("BoxShape3D_x3h1o")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_qb4jd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.371137e-08, 0.9999996, 0, -0.9999996, -4.371137e-08, 0, 4, 0)
+shadow_enabled = true
+shadow_blur = 0.5
+
+[node name="Piramida" type="Node3D" parent="Environment"]
+metadata/_edit_lock_ = true
+
+[node name="Layer1" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17978317, -0.26373196, -0.029018879)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(8, 17.2, 8)
+material = SubResource("StandardMaterial3D_vpf64")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Piramida/Layer1"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Piramida/Layer1/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46887207, 0, 0.36392212)
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Piramida/Layer1/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00038146973, 0, -0.011444092)
+shape = SubResource("BoxShape3D_hnne4")
+
+[node name="Layer2" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.005216835, 9.536743e-07, 0.15998112)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(16, 15, 16)
+material = SubResource("StandardMaterial3D_vpf64")
+
+[node name="Layer3" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.069, 0, 0)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(24, 12, 24)
+material = SubResource("StandardMaterial3D_xv074")
+
+[node name="Layer4" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.057, 0, -0.303)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(32, 9, 32)
+material = SubResource("StandardMaterial3D_sytrn")
+
+[node name="Layer5" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(40, 6, 40)
+material = SubResource("StandardMaterial3D_tf2q7")
+
+[node name="Layer6" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(48.022, 3, 48)
+material = SubResource("StandardMaterial3D_wcngd")
+
+[node name="Stopnice1" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(52.022, 1.5, 15)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice2" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(44, 4.5, 15)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice3" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(36, 7.5, 15)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice4" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(28, 10.5, 15)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice5" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(20, 13.5, 15)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice6" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(15, 1.5, 52)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice7" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(15, 4.5, 44)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice8" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(15, 7.5, 36)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice9" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(15, 10.5, 28)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Stopnice10" type="CSGBox3D" parent="Environment/Piramida"]
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(15, 13.5, 20)
+material = SubResource("StandardMaterial3D_pe1ox")
+
+[node name="Ograja1" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 0.9155011, -0.40231532, 0, 0.40231532, 0.9155011, -7, 3, 19)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja2" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 0.9155011, -0.40231532, 0, 0.40231532, 0.9155011, 7, 3, 19)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja3" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1.1924881e-08, -0.40194774, -0.9156625, 0, 0.9156625, -0.40194774, 1, 4.7931787e-09, 1.0919166e-08, -19, 3, -7)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja4" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1.1924881e-08, -0.40194774, -0.9156625, 0, 0.9156625, -0.40194774, 1, 4.7931787e-09, 1.0919166e-08, -19, 3, 7)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja5" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(-4.371139e-08, 0.4019477, 0.91566247, 0, 0.91566247, -0.4019477, -1, -1.7569693e-08, -4.002488e-08, 19, 3, 7)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja6" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(-4.371139e-08, 0.4019477, 0.91566247, 0, 0.91566247, -0.4019477, -1, -1.7569693e-08, -4.002488e-08, 19, 3, -7)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja7" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(-1, -3.5139387e-08, -8.004976e-08, 0, 0.9156625, -0.40194774, 8.742278e-08, -0.40194774, -0.9156625, -7, 3, -19)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Ograja8" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(-1, -3.5139387e-08, -8.004976e-08, 0, 0.9156625, -0.40194774, 8.742278e-08, -0.40194774, -0.9156625, 7, 3, -19)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(2, 2.5, 24.7)
+material = SubResource("StandardMaterial3D_b7m21")
+
+[node name="Templ" type="CSGBox3D" parent="Environment/Piramida"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+use_collision = true
+collision_layer = 2
+collision_mask = 2
+size = Vector3(16, 10, 16)
+material = SubResource("StandardMaterial3D_m0bv2")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1568604, 0)
+operation = 2
+radius = 9.959961
+height = 9.926025
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(1, 0, 0, 0, -0.018324943, 0.9998321, 0, -0.9998321, -0.018324943, 0, 2, -0.115)
+light_color = Color(0.92941177, 0.7882353, 0.40392157, 1)
+light_energy = 16.0
+shadow_enabled = true
+spot_range = 12.3164835
+spot_angle = 60.468754
+
+[node name="SpotLight3D1" type="SpotLight3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(0.7431448, 0.57948416, -0.33456528, 0, 0.49999997, 0.86602545, 0.6691306, -0.64358234, 0.37157238, -7, 3.5, 6)
+light_color = Color(0.92941177, 0.7882353, 0.40392157, 1)
+light_energy = 16.0
+spot_range = 12.3164835
+spot_angle = 36.35
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(0.4694717, -0.76465493, -0.44147375, 4.3711385e-08, -0.49999994, 0.86602545, -0.8829475, -0.40657443, -0.2347358, -7, 3, -6)
+light_color = Color(0.92941177, 0.7882353, 0.40392157, 1)
+light_energy = 16.0
+spot_range = 12.3164835
+spot_angle = 36.35
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(0.73016226, 0.5917325, 0.3416369, -4.3711385e-08, -0.49999997, 0.86602545, 0.6832738, -0.6323391, -0.36508107, 6.5, 3, -7)
+light_color = Color(0.92941177, 0.7882353, 0.40392157, 1)
+light_energy = 16.0
+spot_range = 12.3164835
+spot_angle = 36.35
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Environment/Piramida/Templ"]
+transform = Transform3D(-0.8878153, 0.39854482, 0.23009989, -4.3711385e-08, -0.49999997, 0.86602545, 0.46019986, 0.76887065, 0.44390765, 6.5, 3, 7)
+light_color = Color(0.92941177, 0.7882353, 0.40392157, 1)
+light_energy = 16.0
+spot_range = 12.3164835
+spot_angle = 36.35
+
+[node name="PlayersContainer" type="Node3D" parent="."]
+
+[node name="MainMenuUI" parent="." instance=ExtResource("6_x9g3h")]
+visible = false
+
+[node name="MultiplayerChatUI" parent="." instance=ExtResource("5_x9g3h")]
+visible = false
+
+[node name="InventoryUI" parent="." instance=ExtResource("4_x8g2h")]
+visible = false
