@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://c75sb7j0tipx0"]
+
+[ext_resource type="AudioStream" uid="uid://c0p0gd4oy4skn" path="res://scenes/Music/LevelSounds/MenuSound.wav" id="1_uymoy"]
+[ext_resource type="AudioStream" uid="uid://d4abqa7wakdqs" path="res://scenes/Music/LevelSounds/ThemeSound2.mp3" id="2_qk6ur"]
+[ext_resource type="AudioStream" uid="uid://b00840y72v61d" path="res://scenes/Music/LevelSounds/Victory.mp3" id="3_seobx"]
+
+[node name="SoundManager" type="Node"]
+
+[node name="Loading_Screen" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_uymoy")
+
+[node name="In_game_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qk6ur")
+
+[node name="Victory_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_seobx")
