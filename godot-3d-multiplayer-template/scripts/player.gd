@@ -40,6 +40,8 @@ func _enter_tree():
 func _ready():
 	var is_local_player = is_multiplayer_authority()
 	var local_client_id = multiplayer.get_unique_id()
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 	print("Debug: Player ", name, " ready - authority: ", get_multiplayer_authority(), ", local client: ", local_client_id, ", is_local: ", is_local_player)
 
@@ -334,3 +336,6 @@ func _add_starting_items():
 		player_inventory.add_item(sword, 1)
 	if potion:
 		player_inventory.add_item(potion, 3)
+
+func hit_by_sword():
+	print("ow")
