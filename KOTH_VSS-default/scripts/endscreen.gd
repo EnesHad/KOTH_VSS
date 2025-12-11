@@ -1,3 +1,4 @@
+class_name Endscreen
 extends Control
 
 var health: int = 100
@@ -48,7 +49,7 @@ func _on_respawn_button_pressed() -> void:
 # ---------------------------------------------------------
 #  Multiplayer Sync
 # ---------------------------------------------------------
-@rpc(any_peer)
+#@rpc(any_peer)
 func rpc_player_died(id: int) -> void:
 	# Only show the end screen for the local player
 	if multiplayer.get_unique_id() == id:
