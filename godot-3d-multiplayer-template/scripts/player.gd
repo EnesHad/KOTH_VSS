@@ -7,6 +7,8 @@ const JUMP_VELOCITY = 10
 
 enum SkinColor { BLUE, YELLOW, GREEN, RED }
 
+@export var KNOCKBACK_STRENGTH = 10
+
 @onready var nickname: Label3D = $PlayerNick/Nickname
 
 var player_inventory: PlayerInventory
@@ -38,6 +40,9 @@ func _enter_tree():
 	$SpringArmOffset/SpringArm3D/Camera3D.current = is_multiplayer_authority()
 
 func _ready():
+	# nastavi lastnika meča, da se ne zadeneš z svojim mečom
+	$"3DGodotRobot/Sword".owner = self
+	
 	var is_local_player = is_multiplayer_authority()
 	var local_client_id = multiplayer.get_unique_id()
 	
@@ -70,6 +75,9 @@ func _physics_process(delta):
 			freeze()
 			return
 
+	if Input.is_action_just_pressed("attack"):
+		$"3DGodotRobot/Sword".swing_sword()
+	
 	if is_on_floor():
 		can_double_jump = true
 		has_double_jumped = false
@@ -337,5 +345,11 @@ func _add_starting_items():
 	if potion:
 		player_inventory.add_item(potion, 3)
 
-func hit_by_sword():
-	print("ow")
+# kliče meč
+func take_damage():
+	print("damage")
+
+# kliče meč
+func take_knockback(direction):
+	print("knockback")
+	velocity += direction * KNOCKBACK_STRENGTH # ne dela ??
