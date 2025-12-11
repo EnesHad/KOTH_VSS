@@ -157,3 +157,26 @@ func set_mesh_texture(mesh_instance: MeshInstance3D, texture: CompressedTexture2
 			var new_material := material
 			new_material.albedo_texture = texture
 			mesh_instance.set_surface_override_material(0, new_material)
+
+#----------Hotbar stuff------------
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		var key_number = event.as_text().to_int()
+		if key_number > 0:
+			_select_hotbar_slot(key_number - 1)
+
+func _select_hotbar_slot(index: int):
+	var hotbar = get_tree().root.get_node("Level/HotbarUI")
+	hotbar.select_slot(index)
+	if index < hotbar.slots.size():
+		var slot = hotbar.slots[index]
+		print("Selected slot: ", index)
+		# TODO: Switch weapon or item
+		
+func give_item(icon: Texture, qty: int):
+	var hotbar = get_tree().root.get_node("Level/HotbarUI")
+	
+	for slot in hotbar.slots:
+		if slot.item_icon == null:
+			slot.update_slot(icon, qty, false)
+			return
