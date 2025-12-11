@@ -55,18 +55,33 @@ func _add_player(id: int, player_info : Dictionary):
 
 	var player = player_scene.instantiate()
 	player.name = str(id)
-	player.position = get_spawn_point()
+	
+	# TUKAJ SPREMEMBA: spawn point glede na skin
+	var skin_enum = player_info["skin"]
+	player.position = get_spawn_point(skin_enum)
+	
 	players_container.add_child(player, true)
 
 	var nick = Network.players[id]["nick"]
 	player.nickname.text = nick
 
-	var skin_enum = player_info["skin"]
+	# To ostane enako
 	player.set_player_skin(skin_enum)
 
-func get_spawn_point() -> Vector3:
-	var spawn_point = Vector2.from_angle(randf() * 2 * PI) # spawn radius
-	return Vector3(spawn_point.x, 10, spawn_point.y)
+# Nova funkcija get_spawn_point, ki sprejme skin
+func get_spawn_point(skin: int) -> Vector3:
+	# Definiraj spawn točke za vsako barvo
+	match skin:
+		Character.SkinColor.BLUE:
+			return Vector3(80, 3, -80)      # npr. levi spawn
+		Character.SkinColor.YELLOW:
+			return Vector3(-80, 3, 80)       # desni spawn
+		Character.SkinColor.GREEN:
+			return Vector3(-80, 3, -80)      # spodnji spawn
+		Character.SkinColor.RED:
+			return Vector3(80, 3, 80)       # zgornji spawn
+		_:
+			return Vector3(0, 10, 0)        # fallback (center)
 
 func _remove_player(id):
 	if not multiplayer.is_server() or not players_container.has_node(str(id)):

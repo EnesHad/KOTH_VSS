@@ -378,15 +378,21 @@ shape = SubResource("BoxShape3D_u44n3")
 debug_color = Color(0.8595658, 0.11187332, 0.8343739, 0.41960785)
 
 [node name="Spawn" type="Node3D" parent="."]
+visible = false
+metadata/_edit_lock_ = true
 
 [node name="Spawn_RED" parent="Spawn" instance=ExtResource("3_u44n3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0.1, 80)
+script = null
 
 [node name="Spawn_BLUE" parent="Spawn" instance=ExtResource("3_u44n3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 0.1, -80)
+script = null
 
 [node name="Spawn_YELLOW" parent="Spawn" instance=ExtResource("3_u44n3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0.1, 80)
+script = null
 
 [node name="Spawn_GREEN" parent="Spawn" instance=ExtResource("3_u44n3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 0.1, -80)
+script = null
