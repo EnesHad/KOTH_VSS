@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://csc5dlximxjn7"]
+
+[ext_resource type="Script" uid="uid://itoc3rgbnqy5" path="res://scripts/lobby_ui.gd" id="1_t04ke"]
+
+[node name="lobby_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_t04ke")
+
+[node name="PlayersCount" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -84.0
+offset_right = 84.0
+offset_bottom = 37.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 27
+text = "PLAYERS: 0/0"
+
+[node name="StartLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 191.0
+offset_top = 296.0
+offset_right = 623.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 31
+text = "PRESS K TO START THE GAME"

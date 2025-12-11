@@ -9,6 +9,7 @@ extends Node3D
 
 var chat_visible = false
 var inventory_visible = false
+var player_count := 0
 
 func _ready():
 	$SoundManager/In_game_music.play()
@@ -42,6 +43,7 @@ func _on_player_connected(peer_id, player_info):
 func _on_host_pressed(nickname: String, skin: String):
 	main_menu.hide_menu()
 	Network.start_host(nickname, skin)
+	$lobby_ui/StartLabel.show()
 
 func _on_join_pressed(nickname: String, skin: String, address: String):
 	main_menu.hide_menu()
@@ -53,7 +55,7 @@ func _add_player(id: int, player_info : Dictionary):
 
 	if players_container.has_node(str(id)):
 		return
-
+	
 	var player = player_scene.instantiate()
 	player.name = str(id)
 	player.position = get_spawn_point()
@@ -64,6 +66,9 @@ func _add_player(id: int, player_info : Dictionary):
 
 	var skin_enum = player_info["skin"]
 	player.set_player_skin(skin_enum)
+	
+	player_count += 1
+	rpc("_sync_player_count", player_count)
 
 func get_spawn_point() -> Vector3:
 	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * 10 # spawn radius
@@ -72,6 +77,10 @@ func get_spawn_point() -> Vector3:
 func _remove_player(id):
 	if not multiplayer.is_server() or not players_container.has_node(str(id)):
 		return
+	
+	player_count -= 1
+	rpc("_sync_player_count", player_count)
+	
 	var player_node = players_container.get_node(str(id))
 	if player_node:
 		player_node.queue_free()
@@ -180,3 +189,10 @@ func _debug_print_inventory():
 		print("=====================")
 	else:
 		print("No inventory found for local player")
+
+@rpc("any_peer", "call_local")
+func _sync_player_count(count: int):
+	player_count = count
+	# Access the UI node and update the label
+	var ui = $lobby_ui  # ⚠️ replace with the real path!
+	ui.update_player_count(count)
