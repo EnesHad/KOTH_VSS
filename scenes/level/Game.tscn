@@ -1,0 +1,43 @@
+[gd_scene load_steps=10 format=3 uid="uid://dugaivbj1o66n"]
+
+[ext_resource type="Script" uid="uid://d0dgljwwl463n" path="res://scripts/Game.gd" id="1_41v56"]
+[ext_resource type="PackedScene" uid="uid://cffjduipbb3s5" path="res://scenes/level/player.tscn" id="2_tfaet"]
+[ext_resource type="PackedScene" uid="uid://by0nb2ud46hi4" path="res://scenes/level/Arena.tscn" id="3_c2rxs"]
+[ext_resource type="PackedScene" uid="uid://4txb3qm2tc3q" path="res://scenes/level/Hub.tscn" id="4_tfaet"]
+[ext_resource type="PackedScene" uid="uid://bx7mq8t8hjn7q" path="res://scenes/ui/main_menu_ui.tscn" id="4_wtlds"]
+[ext_resource type="PackedScene" uid="uid://ccencq0lcd3ph" path="res://scenes/ui/multiplayer_chat_ui.tscn" id="5_tww31"]
+[ext_resource type="PackedScene" uid="uid://bclq8vh1x2goy" path="res://scenes/ui/inventory_ui.tscn" id="6_k7q8n"]
+[ext_resource type="PackedScene" path="res://scenes/ui/lobby_ui.tscn" id="8_c2rxs"]
+[ext_resource type="PackedScene" uid="uid://c75sb7j0tipx0" path="res://Music/sound_manager.tscn" id="9_wtlds"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_41v56")
+player_scene = ExtResource("2_tfaet")
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Arena" parent="World" instance=ExtResource("3_c2rxs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1000, 0, 1000)
+
+[node name="Hub" parent="World" instance=ExtResource("4_tfaet")]
+script = null
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, -0.5, 0.866025, 0, -0.866025, -0.5, 0, 4, 0)
+shadow_enabled = true
+shadow_blur = 0.5
+
+[node name="PlayersContainer" type="Node3D" parent="."]
+
+[node name="MainMenuUI" parent="." instance=ExtResource("4_wtlds")]
+visible = false
+
+[node name="MultiplayerChatUI" parent="." instance=ExtResource("5_tww31")]
+visible = false
+
+[node name="InventoryUI" parent="." instance=ExtResource("6_k7q8n")]
+visible = false
+
+[node name="lobby_ui" parent="." instance=ExtResource("8_c2rxs")]
+
+[node name="SoundManager" parent="." instance=ExtResource("9_wtlds")]

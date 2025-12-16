@@ -27,7 +27,7 @@ var player_inventory: PlayerInventory
 @onready var _limbs_head_mesh: MeshInstance3D = get_node("3DGodotRobot/RobotArmature/Skeleton3D/Llimbs and head")
 
 var _current_speed: float
-var _respawn_point = Vector3(0, 10, 0)
+var _respawn_point = Vector3(0, 5, 0)
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var can_double_jump = true
