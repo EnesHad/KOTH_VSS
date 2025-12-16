@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkhv5i7j2u5m1"]
+
+[ext_resource type="Script" uid="uid://sta8nvipjxvv" path="res://scenes/potion.gd" id="1_jfmod"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_t5rlb"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3fxx2"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_34p8k"]
+
+[node name="Potion" type="Node3D"]
+script = ExtResource("1_jfmod")
+
+[node name="PotionBody" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4446121, 0, 0, 0, 0.4400066, 0, 0, 0, 0.44387364, -0.029631853, 0.7073436, 1.764866)
+mesh = SubResource("SphereMesh_t5rlb")
+
+[node name="PotionTip" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.2058715, 0, 0, 0, 0.1825102, 0, 0, 0, 0.2059482, -0.029631853, 0.8417423, 1.764866)
+mesh = SubResource("CylinderMesh_3fxx2")
+
+[node name="PotionCap" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.26676726, 0, 0, 0, 0.022000331, 0, 0, 0, 0.2663242, -0.029631853, 1.0175829, 1.764866)
+mesh = SubResource("CylinderMesh_34p8k")
