@@ -41,7 +41,7 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		
 		var direction = (body_position - area_position).normalized()
 		
-		if body.has_method("take_damage"):
-			body.take_damage()
-		if body.has_method("take_knockback"):
-			body.take_knockback(direction)
+		if body.has_method("rpc_take_damage"):
+			body.rpc_take_damage.rpc_id(body.get_multiplayer_authority())
+		if body.has_method("rpc_take_knockback"):
+			body.rpc_take_knockback.rpc_id(body.get_multiplayer_authority(), direction)

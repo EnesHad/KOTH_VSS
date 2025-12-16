@@ -7,7 +7,9 @@ const JUMP_VELOCITY = 10
 
 enum SkinColor { BLUE, YELLOW, GREEN, RED }
 
-@export var KNOCKBACK_STRENGTH = 10
+@export var KNOCKBACK_STRENGTH := 9.0
+@export var KNOCKBACK_DAMPING := 28.0
+var knockback_velocity := Vector3.ZERO
 
 @onready var nickname: Label3D = $PlayerNick/Nickname
 
@@ -98,6 +100,14 @@ func _physics_process(delta):
 	velocity.y -= gravity * delta
 
 	_move()
+	# take knockback
+	if knockback_velocity != Vector3.ZERO:
+		print("knockback velocity: " + str(knockback_velocity))
+	velocity += knockback_velocity
+	#if velocity != Vector3.ZERO:
+		#print("velocity: " + str(velocity))
+	# slowly slow down knockback
+	knockback_velocity = knockback_velocity.move_toward(Vector3.ZERO, KNOCKBACK_DAMPING * delta)
 	move_and_slide()
 	_body.animate(velocity)
 
@@ -346,10 +356,20 @@ func _add_starting_items():
 		player_inventory.add_item(potion, 3)
 
 # kliče meč
-func take_damage():
+@rpc("any_peer", "reliable")
+func rpc_take_damage():
+	if not is_multiplayer_authority():
+		return
 	print("damage")
 
-# kliče meč
-func take_knockback(direction):
+@rpc("any_peer", "reliable")
+func rpc_take_knockback(direction: Vector3):
+	if not is_multiplayer_authority():
+		return
+	
 	print("knockback")
-	velocity += direction * KNOCKBACK_STRENGTH # ne dela ??
+	
+	knockback_velocity += direction.normalized() * KNOCKBACK_STRENGTH
+	
+	if is_on_floor():
+		knockback_velocity.y += JUMP_VELOCITY * 0.1
