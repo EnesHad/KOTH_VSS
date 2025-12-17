@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bylt5xapsoft0"]
+
+[ext_resource type="Script" uid="uid://bmhlwjftfevk4" path="res://scenes/level/area_3d.gd" id="1_msvou"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_msvou"]
+size = Vector3(15, 5, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dmpfu"]
+size = Vector3(15, 1, 15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dmpfu"]
+albedo_color = Color(0.34432778, 0.232443, 0.77279305, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dmpfu"]
+material = SubResource("StandardMaterial3D_dmpfu")
+
+[node name="Area3D" type="Area3D"]
+script = ExtResource("1_msvou")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_msvou")
+
+[node name="ScoringBox" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScoringBox"]
+shape = SubResource("BoxShape3D_dmpfu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ScoringBox"]
+transform = Transform3D(15, 0, 0, 0, 1, 0, 0, 0, 15, 0, 0, 0)
+mesh = SubResource("BoxMesh_dmpfu")
+skeleton = NodePath("../CollisionShape3D")
