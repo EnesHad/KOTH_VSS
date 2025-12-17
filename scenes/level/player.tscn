@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://cffjduipbb3s5"]
+[gd_scene load_steps=46 format=4 uid="uid://cffjduipbb3s5"]
 
 [ext_resource type="Script" uid="uid://c2si8gkbnde0c" path="res://scripts/player.gd" id="1_tdh26"]
 [ext_resource type="Texture2D" uid="uid://bdg48m6l86q8i" path="res://assets/characters/player/3DGodotRobot_GodotPalette.png" id="1_w11jc"]
@@ -8,9 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://fpmmv2oxjcdv" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotPalette.png" id="4_max2b"]
 [ext_resource type="Script" uid="uid://bj7yrijm7bppq" path="res://scripts/spring_arm_offset.gd" id="4_ygggd"]
 [ext_resource type="Texture2D" uid="uid://brp1gy30s4rks" path="res://assets/characters/player/GodotRobotPaletteSwap/GodotRedPalette.png" id="5_qlefn"]
-[ext_resource type="AudioStream" uid="uid://wn70hp8xywd6" path="res://scenes/Music/PlayerSound/jump.mp3" id="9_d2uvk"]
-[ext_resource type="AudioStream" uid="uid://ujj8oepicy7x" path="res://scenes/Music/PlayerSound/Swing.mp3" id="10_jn51r"]
-[ext_resource type="AudioStream" uid="uid://s8r6eltbpovt" path="res://scenes/Music/PlayerSound/Hurt.mp3" id="11_bkbtv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mx45w"]
 radius = 0.35796
@@ -5032,22 +5029,3 @@ text = "player name test"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_wb3a5")
-
-[node name="PlayerSounds" type="Node3D" parent="."]
-
-[node name="jump" type="AudioStreamPlayer3D" parent="PlayerSounds"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-stream = ExtResource("9_d2uvk")
-
-[node name="double_jump" type="AudioStreamPlayer3D" parent="PlayerSounds"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-stream = ExtResource("9_d2uvk")
-pitch_scale = 2.82
-
-[node name="swing" type="AudioStreamPlayer3D" parent="PlayerSounds"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-stream = ExtResource("10_jn51r")
-
-[node name="hit" type="AudioStreamPlayer3D" parent="PlayerSounds"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-stream = ExtResource("11_bkbtv")

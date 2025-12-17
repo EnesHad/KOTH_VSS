@@ -73,13 +73,13 @@ func get_spawn_point(skin: int) -> Vector3:
 	# Definiraj spawn točke za vsako barvo
 	match skin:
 		Character.SkinColor.BLUE:
-			return Vector3(80, 3, -80)      # npr. levi spawn
+			return Vector3(1080, 3, -1080)      # npr. levi spawn
 		Character.SkinColor.YELLOW:
-			return Vector3(-80, 3, 80)       # desni spawn
+			return Vector3(-1080, 3, 1080)       # desni spawn
 		Character.SkinColor.GREEN:
-			return Vector3(-80, 3, -80)      # spodnji spawn
+			return Vector3(-1080, 3, -1080)      # spodnji spawn
 		Character.SkinColor.RED:
-			return Vector3(80, 3, 80)       # zgornji spawn
+			return Vector3(1080, 3, 1080)       # zgornji spawn
 		_:
 			return Vector3(0, 10, 0)        # fallback (center)
 

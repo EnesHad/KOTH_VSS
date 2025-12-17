@@ -10,6 +10,7 @@ extends Node3D
 var chat_visible = false
 var inventory_visible = false
 
+
 func _ready():
 	if DisplayServer.get_name() == "headless":
 		print("Dedicated server starting...")
@@ -18,6 +19,8 @@ func _ready():
 	multiplayer_chat.hide()
 	main_menu.show_menu()
 	multiplayer_chat.set_process_input(true)
+	
+	$lobby_ui.set_lobby_visible(false)
 
 	main_menu.host_pressed.connect(_on_host_pressed)
 	main_menu.join_pressed.connect(_on_join_pressed)
@@ -36,17 +39,53 @@ func _ready():
 	multiplayer.peer_disconnected.connect(_remove_player)
 
 func _on_player_connected(peer_id, player_info):
-	_add_player(peer_id, player_info)
+	Load_Player(peer_id, player_info)
 
 func _on_host_pressed(nickname: String, skin: String):
 	main_menu.hide_menu()
+	$lobby_ui.set_lobby_visible(true)
+	$lobby_ui.set_start_label_visible(true) # ✅ HOST ONLY
 	Network.start_host(nickname, skin)
 
 func _on_join_pressed(nickname: String, skin: String, address: String):
 	main_menu.hide_menu()
+	$lobby_ui.set_lobby_visible(true)
 	Network.join_game(nickname, skin, address)
 
-func _add_player(id: int, player_info : Dictionary):
+
+#----------Spawning player in hub---------
+func Load_Player(id: int, player_info : Dictionary):
+	if DisplayServer.get_name() == "headless" and id == 1:
+		return
+
+	if players_container.has_node(str(id)):
+		return
+
+	var player = player_scene.instantiate()
+	player.name = str(id)
+	var skin_enum = player_info["skin"]
+	player.set_player_skin(skin_enum)
+	#menjava lokacije spawna za playerja
+	player.position = get_spawn_point()
+	players_container.add_child(player, true)
+
+	var nick = Network.players[id]["nick"]
+	player.nickname.text = nick
+	
+
+	if multiplayer.is_server():
+		rpc("_sync_player_count", _get_player_count())
+
+	
+
+func get_spawn_point() -> Vector3:
+	var spawn_point = Vector2.from_angle(randf() * 2 * PI) * 10 # spawn radius
+	return Vector3(spawn_point.x, 0, spawn_point.y)
+#----------Spawning player in hub---------
+
+
+#------------Spawn player in Arena------------
+func Move_to_Arena(id: int, player_info : Dictionary):
 	if DisplayServer.get_name() == "headless" and id == 1:
 		return
 
@@ -58,7 +97,7 @@ func _add_player(id: int, player_info : Dictionary):
 	
 	# TUKAJ SPREMEMBA: spawn point glede na skin
 	var skin_enum = player_info["skin"]
-	player.position = get_spawn_point(skin_enum)
+	player.position = Spawn_on_Arena(skin_enum)
 	
 	players_container.add_child(player, true)
 
@@ -68,27 +107,33 @@ func _add_player(id: int, player_info : Dictionary):
 	# To ostane enako
 	player.set_player_skin(skin_enum)
 
-# Nova funkcija get_spawn_point, ki sprejme skin
-func get_spawn_point(skin: int) -> Vector3:
+# Nova funkcija Spawn_on_Arena, ki sprejme skin
+func Spawn_on_Arena(skin: int) -> Vector3:
 	# Definiraj spawn točke za vsako barvo
 	match skin:
 		Character.SkinColor.BLUE:
-			return Vector3(80, 3, -80)      # npr. levi spawn
+			return Vector3(1080, 3, 1080)      # npr. levi spawn
 		Character.SkinColor.YELLOW:
-			return Vector3(-80, 3, 80)       # desni spawn
+			return Vector3(920, 3, 1080)       # desni spawn
 		Character.SkinColor.GREEN:
-			return Vector3(-80, 3, -80)      # spodnji spawn
+			return Vector3(920, 3, 920)      # spodnji spawn
 		Character.SkinColor.RED:
-			return Vector3(80, 3, 80)       # zgornji spawn
+			return Vector3(1080, 3, 920)       # zgornji spawn
 		_:
 			return Vector3(0, 10, 0)        # fallback (center)
+#------------Spawn player in Arena------------
+
 
 func _remove_player(id):
 	if not multiplayer.is_server() or not players_container.has_node(str(id)):
 		return
+
 	var player_node = players_container.get_node(str(id))
 	if player_node:
 		player_node.queue_free()
+		await player_node.tree_exited  # ✅ wait for actual removal
+
+	rpc("_sync_player_count", _get_player_count())
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
@@ -105,6 +150,8 @@ func is_chat_visible() -> bool:
 	return multiplayer_chat.is_chat_visible()
 
 func _input(event):
+	if event.is_action_pressed("start_game"):
+		startGame()
 	if event.is_action_pressed("toggle_chat"):
 		toggle_chat()
 	elif chat_visible and multiplayer_chat.message.has_focus():
@@ -194,3 +241,13 @@ func _debug_print_inventory():
 		print("=====================")
 	else:
 		print("No inventory found for local player")
+		
+@rpc("any_peer", "call_local")
+func _sync_player_count(count: int):
+	var ui = $lobby_ui
+	if ui and ui.visible:
+		ui.update_player_count(count)
+
+	
+func _get_player_count() -> int:
+	return players_container.get_child_count()

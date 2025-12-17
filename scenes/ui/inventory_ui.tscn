@@ -59,8 +59,8 @@ layout_mode = 2
 
 [node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 3
+size_flags_horizontal = 4
 columns = 4
 
 [node name="ItemTooltip" type="Control" parent="."]

@@ -76,7 +76,6 @@ func _physics_process(delta):
 			velocity.y = JUMP_VELOCITY
 			can_double_jump = true
 			_body.play_jump_animation("Jump")
-			$PlayerSounds/jump.play()
 	else:
 		velocity.y -= gravity * delta
 
@@ -85,7 +84,6 @@ func _physics_process(delta):
 			has_double_jumped = true
 			can_double_jump = false
 			_body.play_jump_animation("Jump2")
-			$PlayerSounds/double_jump.play()
 
 	velocity.y -= gravity * delta
 

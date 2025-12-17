@@ -10,7 +10,7 @@ signal quit_pressed
 @onready var address_input: LineEdit = $MainContainer/MainMenu/Option3/AddressInput
 
 func _ready():
-	$SoundManager/Loading_Screen.play()
+	pass
 
 func _on_host_pressed():
 	var nickname = nick_input.text.strip_edges()
@@ -30,7 +30,6 @@ func show_menu():
 	show()
 
 func hide_menu():
-	$SoundManager/Loading_Screen.stop()
 	hide()
 
 func is_menu_visible() -> bool:
